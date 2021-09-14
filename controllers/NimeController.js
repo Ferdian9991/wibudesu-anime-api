@@ -695,6 +695,48 @@ class NimeController {
         data.linkStream = {
           baseLink: zippyLink,
         }
+        data.title = $('h1.entry-title')
+        .map(function () {
+          return $(this).text()
+        })
+        .get()[0]
+        data.eps = $('span[itemprop=episodeNumber]')
+          .map(function () {
+            return $(this).text()
+          })
+          .get()[0]
+        data.uploader = $('span.year')
+          .map(function () {
+            return $(this).text().replace('Diposting oleh ', '').split(' - ')[0]
+          })
+          .get()[0]
+        data.date_uploaded = $('span.year')
+          .map(function () {
+            return $(this).text().replace('Diposting oleh ', '').split(' - ')[1]
+          })
+          .get()[0]
+        data.detail_anime = {
+          title: $('.infoanime .infox h2.entry-title')
+            .map(function () {
+              return $(this).text()
+            })
+            .get()[0],
+          image: $('.infoanime .thumb img')
+            .map(function () {
+              return $(this).attr('src').replace('quality=80', 'quality=100')
+            })
+            .get()[0],
+          sinopsis: $('.infoanime .infox .desc div')
+            .map(function () {
+              return $(this).text()
+            })
+            .get()[0],
+          genres: $('.infoanime .infox .genre-info a')
+            .map(function () {
+              return $(this).text()
+            })
+            .get(),
+        }
 
       const stream = data.linkStream.baseLink;
 
@@ -706,11 +748,6 @@ class NimeController {
       const zippyNameIndex = zippyName.slice(zippyName.indexOf("Name:") + 5, zippyName.indexOf("Size:")).toString();
 
       console.log(zippyNameIndex);
-
-
-      // const name = cheer("#lrbox .center > div").find('font').text().toString();
-      const nameIndex = zippy.data.slice(zippy.data.indexOf("Name:") + 5, zippy.data.indexOf("Size:")).toString();
-      const nameLink = nameIndex.slice(nameIndex.indexOf('14px;">') + 7, nameIndex.indexOf('</font><br>')).toString();
       
       const firstIndex = zippy.data.indexOf("document.getElementById('dlbutton').href = ");
       const secondIndex = zippy.data.indexOf("if (document.getElementById('fimage'))");
@@ -725,120 +762,11 @@ class NimeController {
       
       console.log(dataId);
 
-      data.streamLink = `${baseStream}` + `${(dataId)}` + `/${nameLink}`;
+      data.streamLink = `${baseStream}` + `${(dataId)}` + `/${zippyNameIndex}`;
 
       console.log($('#player_embed').find('iframe').attr('src'));
 
-      data.title = $('h1.entry-title')
-        .map(function () {
-          return $(this).text()
-        })
-        .get()[0]
-      data.eps = $('span[itemprop=episodeNumber]')
-        .map(function () {
-          return $(this).text()
-        })
-        .get()[0]
-      data.uploader = $('span.year')
-        .map(function () {
-          return $(this).text().replace('Diposting oleh ', '').split(' - ')[0]
-        })
-        .get()[0]
-      data.date_uploaded = $('span.year')
-        .map(function () {
-          return $(this).text().replace('Diposting oleh ', '').split(' - ')[1]
-        })
-        .get()[0]
-      data.detail_anime = {
-        title: $('.infoanime .infox h2.entry-title')
-          .map(function () {
-            return $(this).text()
-          })
-          .get()[0],
-        image: $('.infoanime .thumb img')
-          .map(function () {
-            return $(this).attr('src').replace('quality=80', 'quality=100')
-          })
-          .get()[0],
-        sinopsis: $('.infoanime .infox .desc div')
-          .map(function () {
-            return $(this).text()
-          })
-          .get()[0],
-        genres: $('.infoanime .infox .genre-info a')
-          .map(function () {
-            return $(this).text()
-          })
-          .get(),
-      }
-      // data.downloadEps = $('.download-eps')
-      //   .map(function () {
-      //     return {
-      //       format: $(this).find('p').text(),
-      //       data: $(this)
-      //         .find('ul li')
-      //         .map(function () {
-      //           return {
-      //             quality: $(this).find('strong').text(),
-      //             link: {
-      //               zippyshare: $(this)
-      //                 .find('span:nth-of-type(1) a')
-      //                 .attr('href'),
-      //               gdrive: $(this).find('span:nth-of-type(2) a').attr('href'),
-      //               reupload: $(this)
-      //                 .find('span:nth-of-type(3) a')
-      //                 .attr('href'),
-      //             },
-      //           }
-      //         })
-      //         .get(),
-      //     }
-      //   })
-      //   .get()
-        
-        
-
-        // const downloadList = data.downloadEps;
-        // const MP4 = downloadList.filter(function(arr) {
-        //   link = arr.format === "MP4";
-        //   console.log(link);
-        //   return link
-        // })[0];
-        // const filter720p = MP4.data.filter(function(arr) {
-        //   link = arr.quality === "MP4HD "
-        //   return link
-        // })[0];
-
-        // data.stream720p = filter720p;
-        // const zippyShare = filter720p.link['zippyshare'];
-        // const baseStream = zippyShare.slice(0, zippyShare.indexOf("file.html")).replace("v", "d");
-        // const zippy = await Axios.get(zippyShare);
-        // const firstIndex = zippy.data.indexOf("document.getElementById('dlbutton').href = ");
-        // const secondIndex = zippy.data.indexOf("if (document.getElementById('fimage'))");
-        // const html = zippy.data.slice(firstIndex, secondIndex);
-        // const dataString = html.slice(html.indexOf("+ (") + 3, html.indexOf(") +"));
-
-        // const dataIndex1 =  dataString.slice(0, dataString.indexOf(' %'));
-        // const lastIndex = `+ ${dataIndex1} % `;
-        // const dataIndex2 = dataString.slice(dataString.indexOf(dataIndex1) + dataString.indexOf(' % ') + 3, dataString.indexOf(' +'));
-        // const dataIndex3 = dataString.slice(dataString.indexOf(lastIndex) + lastIndex.length , dataString.length);
-        // const dataId = (parseInt(dataIndex1) % parseInt(dataIndex2) + parseInt(dataIndex1) % parseInt(dataIndex3));
-
-        console.log(data);
-        
-        // let linkName;
-
-        // scraperjs.StaticScraper.create(zippyShare).scrape(async ($) => {
-        //   const name = $("#lrbox .center > div").find('font').text().toString();
-        //   const nameIndex = name.slice(name.indexOf("Name:") + 5, name.indexOf("Size:")).toString();
-        //   linkName = nameIndex;
-        // });
-
-        // data.stream720p = dataId;
-
-        // console.log(data);
-
-        // const urL = `${baseStream}` + `${dataId}` + `/${nameIndex}`;
+      console.log(data);
 
       data.recommend = $('.animposx')
         .map(function () {
