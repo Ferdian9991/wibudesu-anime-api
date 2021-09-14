@@ -1,6 +1,6 @@
 const scraperjs = require('scraperjs')
 const { default: Axios } = require("axios");
-import * as cheerio from 'cheerio';
+const cheerio = require("cheerio");
 // const cheerio = require("cheerio");
 
 class NimeController {
