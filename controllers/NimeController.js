@@ -2,6 +2,7 @@ const scraperjs = require('scraperjs')
 const { default: Axios } = require("axios");
 const cheerio = require("cheerio");
 const _url = require('url');
+const _math = require('mathjs');
 // const cheerio = require("cheerio");
 
 class NimeController {
@@ -748,10 +749,8 @@ class NimeController {
 
       const url = _url.parse(scrape('.flagen').attr('href'), true)
       const key = url.query['key']
-
-      console.log(key)
-
-      console.log(baseStream);
+      let time;
+      time = _math.evaluate(/ \+ \((.*)\) \+ /gm.exec(scrape('#dlbutton').next().html())[1]);
       
       const firstIndex = zippy.data.indexOf("document.getElementById('dlbutton').href = ");
       const secondIndex = zippy.data.indexOf("if (document.getElementById('fimage'))");
@@ -764,7 +763,7 @@ class NimeController {
       const dataIndex3 = dataString.slice(dataString.indexOf(lastIndex) + lastIndex.length , dataString.length);
       const dataId = (parseInt(dataIndex1) % parseInt(dataIndex2) + parseInt(dataIndex1) % parseInt(dataIndex3));
 
-      data.streamLink = `${baseStream}`+ `${key}/` + `${(dataId)}` + `/${zippyNameIndex}`;
+      data.streamLink = `${baseStream}`+ `${key}/` + `${(time)}` + `/${zippyNameIndex}`;
 
       data.recommend = $('.animposx')
         .map(function () {
