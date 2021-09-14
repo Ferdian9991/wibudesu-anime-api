@@ -701,13 +701,17 @@ class NimeController {
       const zippyShare = stream;
       const baseStream = zippyShare.slice(0, zippyShare.indexOf("file.html")).replace("v", "d");
       const zippy = await Axios.get(zippyShare);
-      // const cheer = cheerio.load(zippy.data);
+      const scrape = cheerio.load(zippy.data);
+      const zippyName = scrape("#lrbox .center > div").find('font').text().toString();
+      const zippyNameIndex = zippyName.slice(zippyName.indexOf("Name:") + 5, zippyName.indexOf("Size:")).toString();
+
+      console.log(zippyNameIndex);
+
 
       // const name = cheer("#lrbox .center > div").find('font').text().toString();
       const nameIndex = zippy.data.slice(zippy.data.indexOf("Name:") + 5, zippy.data.indexOf("Size:")).toString();
       const nameLink = nameIndex.slice(nameIndex.indexOf('14px;">') + 7, nameIndex.indexOf('</font><br>')).toString();
       
-      console.log(nameLink);
       const firstIndex = zippy.data.indexOf("document.getElementById('dlbutton').href = ");
       const secondIndex = zippy.data.indexOf("if (document.getElementById('fimage'))");
       const html = zippy.data.slice(firstIndex, secondIndex);
