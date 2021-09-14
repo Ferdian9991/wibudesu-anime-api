@@ -17,6 +17,13 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
+app.use('/',(req,res)=>{
+  res.send({
+      message : 'Wibu Desu anime scraper',
+      createdBy : 'Ferdian9991',
+      github :'https://github.com/Ferdian9991/wibudesu-anime-api'
+  })
+})
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
