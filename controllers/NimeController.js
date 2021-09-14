@@ -1,6 +1,7 @@
 const scraperjs = require('scraperjs')
 const { default: Axios } = require("axios");
 const cheerio = require("cheerio");
+const _url = require('url');
 // const cheerio = require("cheerio");
 
 class NimeController {
@@ -689,8 +690,6 @@ class NimeController {
         const arrData = data.download;
         const MP4 = arrData[0].data[2];
         const zippyLink = MP4.link['zippyshare'];
-        
-        console.log(zippyLink);
 
         data.linkStream = {
           baseLink: zippyLink,
@@ -741,13 +740,18 @@ class NimeController {
       const stream = data.linkStream.baseLink;
 
       const zippyShare = stream;
-      const baseStream = zippyShare.slice(0, zippyShare.indexOf("file.html")).replace("v", "d");
+      const baseStream = zippyShare.slice(0, zippyShare.indexOf("v/") + 2).replace("v", "d");
       const zippy = await Axios.get(zippyShare);
       const scrape = cheerio.load(zippy.data);
       const zippyName = scrape("#lrbox .center > div").find('font').text().toString();
       const zippyNameIndex = zippyName.slice(zippyName.indexOf("Name:") + 5, zippyName.indexOf("Size:")).toString();
 
-      console.log(zippyNameIndex);
+      const url = _url.parse(scrape('.flagen').attr('href'), true)
+      const key = url.query['key']
+
+      console.log(key)
+
+      console.log(baseStream);
       
       const firstIndex = zippy.data.indexOf("document.getElementById('dlbutton').href = ");
       const secondIndex = zippy.data.indexOf("if (document.getElementById('fimage'))");
@@ -759,14 +763,8 @@ class NimeController {
       const dataIndex2 = dataString.slice(dataString.indexOf(dataIndex1) + dataString.indexOf(' % ') + 3, dataString.indexOf(' +'));
       const dataIndex3 = dataString.slice(dataString.indexOf(lastIndex) + lastIndex.length , dataString.length);
       const dataId = (parseInt(dataIndex1) % parseInt(dataIndex2) + parseInt(dataIndex1) % parseInt(dataIndex3));
-      
-      console.log(dataId);
 
-      data.streamLink = `${baseStream}` + `${(dataId)}` + `/${zippyNameIndex}`;
-
-      console.log($('#player_embed').find('iframe').attr('src'));
-
-      console.log(data);
+      data.streamLink = `${baseStream}`+ `${key}/` + `${(dataId)}` + `/${zippyNameIndex}`;
 
       data.recommend = $('.animposx')
         .map(function () {
