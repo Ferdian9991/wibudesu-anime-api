@@ -21,7 +21,7 @@ app.use('/',(req,res)=>{
   res.send({
       message : 'Wibu Desu anime scraper',
       createdBy : 'Ferdian9991',
-      github :'https://github.com/Kaede-No-Ki/otakudesu-rest-api'
+      github :'https://github.com/Ferdian9991/wibudesu-anime-api'
   })
 })
 
