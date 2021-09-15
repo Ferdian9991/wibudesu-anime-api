@@ -3,6 +3,7 @@ const { default: Axios } = require("axios");
 const cheerio = require("cheerio");
 const _url = require('url');
 const _math = require('mathjs');
+const zsExtract = require('zs-extract');
 // const cheerio = require("cheerio");
 
 class NimeController {
@@ -751,24 +752,29 @@ class NimeController {
         linkStream = zippyLink360;
       }
 
-      const stream = linkStream;
+      // const stream = linkStream;
 
-      const zippyShare = stream;
-      const baseStream = _url.parse(stream, true);
-      const zippy = await Axios.get(zippyShare);
-      const scrape = cheerio.load(zippy.data);
-      const zippyName = scrape("#lrbox .center > div").find('font').text().toString();
-      const zippyNameIndex = zippyName.slice(zippyName.indexOf("Name:") + 5, zippyName.indexOf("Size:")).toString();
+      // const zippyShare = stream;
+      // const baseStream = _url.parse(stream, true);
+      // const zippy = await Axios.get(zippyShare);
+      // const scrape = cheerio.load(zippy.data);
+      // const zippyName = scrape("#lrbox .center > div").find('font').text().toString();
+      // const zippyNameIndex = zippyName.slice(zippyName.indexOf("Name:") + 5, zippyName.indexOf("Size:")).toString();
 
-      const url = _url.parse(scrape('.flagen').attr('href'), true)
-      const key = url.query['key']
-      let time;
-      time = _math.evaluate(/ \+ \((.*)\) \+ /gm.exec(scrape('#dlbutton').next().html())[1]);
+      // const url = _url.parse(scrape('.flagen').attr('href'), true)
+      // const key = url.query['key']
+      // let time;
+      // time = _math.evaluate(/ \+ \((.*)\) \+ /gm.exec(scrape('#dlbutton').next().html())[1]);
 
-      const streamLink = `${baseStream.protocol}//`+ `${baseStream.host}/d/` + `${key}/` + `${(time)}` + `/${zippyNameIndex.replace(/\s/g, "%20")}`;
-      data.downloadableLink = new URL(streamLink).href
+      // const streamLink = `${baseStream.protocol}//`+ `${baseStream.host}/d/` + `${key}/` + `${(time)}` + `/${zippyNameIndex.replace(/\s/g, "%20")}`;
+      // data.downloadableLink = new URL(streamLink).href
 
-      console.log()
+      const stream = await zsExtract.extract(
+        linkStream
+      );
+
+      data.streamLink = stream.download
+
       data.recommend = $('.animposx')
         .map(function () {
           const data = {

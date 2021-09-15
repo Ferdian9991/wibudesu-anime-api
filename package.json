@@ -19,7 +19,8 @@
     "mathjs": "^9.4.4",
     "morgan": "~1.9.1",
     "scraperjs": "^1.2.0",
-    "url": "^0.11.0"
+    "url": "^0.11.0",
+    "zs-extract": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^16.9.1",
