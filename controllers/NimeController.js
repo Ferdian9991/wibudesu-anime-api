@@ -765,7 +765,7 @@ class NimeController {
       let time;
       time = _math.evaluate(/ \+ \((.*)\) \+ /gm.exec(scrape('#dlbutton').next().html())[1]);
 
-      data.streamLink = `${baseStream}`+ `${key}/` + `${(time)}` + `/${zippyNameIndex}`;
+      data.streamLink = `${baseStream}`+ `${key}/` + `${(time)}` + `/${zippyNameIndex.replace(/\s/g, "%20")}`;
 
       data.recommend = $('.animposx')
         .map(function () {
