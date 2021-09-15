@@ -663,6 +663,11 @@ class NimeController {
     scraperjs.StaticScraper.create(page).scrape(async ($) => {
       const data = {}
 
+      if(req.statusCode === 200) {
+        data.message = "success"; 
+      }
+      data.statusCode = req.statusCode.toString();
+
       data.title = $('h1.entry-title')
       .map(function () {
         return $(this).text()
@@ -737,9 +742,6 @@ class NimeController {
       const MP4360 = arrData[0].data.filter(mp4 => mp4.quality === "360p ")
       const zippyLink360 = MP4360[0].link['zippyshare'];
       const bool = MP4[0].link['zippyshare'].includes(["zippyshare"]).toString()
-      
-      console.log(bool);
-      // console.log(zippyLink[0])
 
       let linkStream;
 
