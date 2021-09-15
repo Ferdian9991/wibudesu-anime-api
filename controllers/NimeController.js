@@ -767,6 +767,7 @@ class NimeController {
 
       data.streamLink = `${baseStream.protocol}//`+ `${baseStream.host}/d/` + `${key}/` + `${(time)}` + `/${zippyNameIndex.replace(/\s/g, "%20")}`;
 
+      console.log(zippy.headers['set-cookie'][0])
       data.recommend = $('.animposx')
         .map(function () {
           const data = {
