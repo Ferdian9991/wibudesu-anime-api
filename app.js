@@ -19,7 +19,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', indexRouter)
 app.use('/',(req,res)=>{
   res.send({
-      message : 'Wibu Desu anime scraper',
+      message: "success",
+      status : res.statusCode.toString(),
+      appName : 'Wibu Desu anime scraper API',
       createdBy : 'Ferdian9991',
       github :'https://github.com/Ferdian9991/wibudesu-anime-api'
   })
