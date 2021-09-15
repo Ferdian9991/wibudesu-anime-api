@@ -732,10 +732,22 @@ class NimeController {
         .get()
 
       const arrData = data.download;
-      const MP4 = arrData[0].data[2];
-      const zippyLink = MP4.link['zippyshare'];
+      const MP4 = arrData[0].data.filter(mp4 => mp4.quality === "720p ")
+      const zippyLink720 = MP4[0].link['zippyshare'];
+      const MP4360 = arrData[0].data.filter(mp4 => mp4.quality === "360p ")
+      const zippyLink360 = MP4360[0].link['zippyshare'];
+      const bool = MP4[0].link['zippyshare'].includes(["zippyshare"]).toString()
+      
+      console.log(bool);
+      // console.log(zippyLink[0])
 
-      const linkStream = zippyLink;
+      let linkStream;
+
+      if (bool === "true") {
+        linkStream = zippyLink720;
+      } else {
+        linkStream = zippyLink360;
+      }
 
       const stream = linkStream;
 
