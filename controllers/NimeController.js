@@ -765,9 +765,10 @@ class NimeController {
       let time;
       time = _math.evaluate(/ \+ \((.*)\) \+ /gm.exec(scrape('#dlbutton').next().html())[1]);
 
-      data.streamLink = `${baseStream.protocol}//`+ `${baseStream.host}/d/` + `${key}/` + `${(time)}` + `/${zippyNameIndex.replace(/\s/g, "%20")}`;
+      const streamLink = `${baseStream.protocol}//`+ `${baseStream.host}/d/` + `${key}/` + `${(time)}` + `/${zippyNameIndex.replace(/\s/g, "%20")}`;
+      data.downloadableLink = new URL(streamLink).href
 
-      console.log(zippy.headers['set-cookie'][0])
+      console.log()
       data.recommend = $('.animposx')
         .map(function () {
           const data = {
