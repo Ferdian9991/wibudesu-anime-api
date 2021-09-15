@@ -754,7 +754,7 @@ class NimeController {
       const stream = linkStream;
 
       const zippyShare = stream;
-      const baseStream = zippyShare.slice(0, zippyShare.indexOf("v/") + 2).replace("v", "d");
+      const baseStream = _url.parse(stream, true);
       const zippy = await Axios.get(zippyShare);
       const scrape = cheerio.load(zippy.data);
       const zippyName = scrape("#lrbox .center > div").find('font').text().toString();
@@ -765,7 +765,7 @@ class NimeController {
       let time;
       time = _math.evaluate(/ \+ \((.*)\) \+ /gm.exec(scrape('#dlbutton').next().html())[1]);
 
-      data.streamLink = `${baseStream}`+ `${key}/` + `${(time)}` + `/${zippyNameIndex.replace(/\s/g, "%20")}`;
+      data.streamLink = `${baseStream.protocol}//`+ `${baseStream.host}/d/` + `${key}/` + `${(time)}` + `/${zippyNameIndex.replace(/\s/g, "%20")}`;
 
       data.recommend = $('.animposx')
         .map(function () {
