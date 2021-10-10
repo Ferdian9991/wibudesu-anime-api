@@ -10,7 +10,7 @@ class OtakuController {
         let home = {};
         let on_going = [];
         let complete = [];
-        const baseUrl = 'https://194.163.183.129/'
+        const baseUrl = 'https://otakudesu.moe/'
         const response = await Axios.get(baseUrl)
         console.log(response)
         req.send('foo')
