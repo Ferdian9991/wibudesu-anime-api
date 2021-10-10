@@ -1,5 +1,6 @@
 const express = require('express')
 const NimeController = require('../controllers/NimeController')
+const OtakuController = require('../controllers/OtakuController')
 
 const router = express.Router()
 
@@ -21,5 +22,6 @@ router.get('/tag/:tag', NimeController.tag)
 router.get('/blog-category/:category', NimeController.blogcategory)
 router.get('/blog-category/:category/:page', NimeController.blogCategoryByPage)
 router.get('/genre-list', NimeController.daftarGenre)
+router.get('/otaku/home', OtakuController.home)
 
 module.exports = router
