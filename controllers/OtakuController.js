@@ -4,6 +4,7 @@ const cheerio = require("cheerio");
 const _url = require('url');
 const _math = require('mathjs');
 const zsExtract = require('zs-extract');
+const request = require('request')
 
 class OtakuController {
     async home (_, req) {
@@ -11,8 +12,16 @@ class OtakuController {
         let on_going = [];
         let complete = [];
         const baseUrl = 'https://otakudesu.moe/'
-        const response = await Axios.get(baseUrl)
-        console.log(response)
+        request(baseUrl, function(error, response, body) {
+            if(!error) {
+              console.log(response)
+            }
+            else {
+              console.log('There was an error!');
+            }
+        });
+        // const response = await Axios.get(baseUrl)
+        
         req.send('foo')
     }
 }
