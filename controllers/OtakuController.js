@@ -12,15 +12,17 @@ class OtakuController {
         let on_going = [];
         let complete = [];
         const baseUrl = 'https://otakudesu.moe/'
-        request(baseUrl, function(error, response, body) {
-            if(!error) {
-              console.log(response)
-            }
-            else {
-              console.log('There was an error!');
-            }
-        });
+        // request(baseUrl, function(error, response, body) {
+        //     if(!error) {
+        //       console.log(response)
+        //     }
+        //     else {
+        //       console.log('There was an error!');
+        //     }
+        // });
         // const response = await Axios.get(baseUrl)
+        const response = await Axios.get(baseUrl, {withCredentials: true})
+        console.log(response)
         
         req.send('foo')
     }
