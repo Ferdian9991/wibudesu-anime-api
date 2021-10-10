@@ -1,11 +1,12 @@
 const scraperjs = require('scraperjs')
-const Axios = require("axios");
+const axios = require("axios");
 const cheerio = require("cheerio");
 const _url = require('url');
 const _math = require('mathjs');
 const zsExtract = require('zs-extract');
 const request = require('request')
-const got = require("got");
+var cookie = require('tough-cookie')
+const wrapper = require('axios-cookiejar-support')
 
 class OtakuController {
     async home (_, req) {
@@ -22,8 +23,11 @@ class OtakuController {
         //     }
         // });
         // const response = await Axios.get(baseUrl)
-        const response = await got.get(baseUrl)
-        console.log(response.body)
+        const jar = new cookie.CookieJar();
+        const client = wrapper.wrapper(axios.create({ jar }));
+
+        const response = await client.get(baseUrl);
+        console.log(response)
         
         req.send('foo')
     }
