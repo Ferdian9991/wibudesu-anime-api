@@ -5,6 +5,7 @@ const _url = require('url');
 const _math = require('mathjs');
 const zsExtract = require('zs-extract');
 const request = require('request')
+const got = require("got");
 
 class OtakuController {
     async home (_, req) {
@@ -21,8 +22,8 @@ class OtakuController {
         //     }
         // });
         // const response = await Axios.get(baseUrl)
-        const response = await Axios.get(baseUrl, {withCredentials: true})
-        console.log(response)
+        const response = await got.get(baseUrl)
+        console.log(response.body)
         
         req.send('foo')
     }
