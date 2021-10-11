@@ -10,10 +10,8 @@ const wrapper = require('axios-cookiejar-support')
 
 class OtakuController {
     async home (_, req) {
-        let home = {};
-        let on_going = [];
-        let complete = [];
-        const baseUrl = 'https://otakudesu.moe/'
+        let result = {};
+        const baseUrl = 'https://otakupoi.com/otakudesu/search/?q=f'
         // request(baseUrl, function(error, response, body) {
         //     if(!error) {
         //       console.log(response)
@@ -27,7 +25,20 @@ class OtakuController {
         const client = wrapper.wrapper(axios.create({ jar }));
 
         const response = await client.get(baseUrl);
-        console.log(response)
+        const $ = cheerio.load(response.data);
+        const getRow = $('.row').find('.container')
+        const images = []
+        const element = getRow.find('.main-col')
+        element.find('.bg-white').find('a').each(function() {
+            const scrape = {
+                title: $(this).find('.titlelist').text(),
+                image: $(this).find('img').attr('src'),
+                url: $(this).attr('href')
+            }
+            images.push(scrape)
+            // console.log('foo')
+        })
+        console.log(images)
         
         req.send('foo')
     }
