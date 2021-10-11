@@ -7,12 +7,12 @@ const zsExtract = require('zs-extract');
 const request = require('request')
 var cookie = require('tough-cookie')
 const wrapper = require('axios-cookiejar-support')
-const baseUrl = "https://otakupoi.com/oploverz/"
+const baseUrl = "https://otakupoi.com/"
 
 class OtakuController {
-    async search ({params: {query}}, req) {
+    async search ({params: {portal, query}}, req) {
         let obj = {};
-        const search = `${baseUrl}search/?q=${query}`
+        const search = `${baseUrl}${portal}/search/?q=${query}`
         const jar = new cookie.CookieJar();
         const client = wrapper.wrapper(axios.create({ jar }));
 
@@ -27,7 +27,7 @@ class OtakuController {
                 image: $(this).find('img').attr('src'),
                 url: $(this).attr('href'),
                 rating: $(this).find('.starlist').text(),
-                endpoint: $(this).attr('href').replace(baseUrl, ''),
+                endpoint: $(this).attr('href').replace(`${baseUrl}${portal}/`, ''),
             }
             result.push(scrape)
         })

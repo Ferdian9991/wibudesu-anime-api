@@ -22,6 +22,6 @@ router.get('/tag/:tag', NimeController.tag)
 router.get('/blog-category/:category', NimeController.blogcategory)
 router.get('/blog-category/:category/:page', NimeController.blogCategoryByPage)
 router.get('/genre-list', NimeController.daftarGenre)
-router.get('/oploverz/search/:query', OtakuController.search)
+router.get('/:portal/search/:query', OtakuController.search)
 
 module.exports = router
