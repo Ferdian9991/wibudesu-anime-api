@@ -11,28 +11,31 @@ const baseUrl = "https://otakupoi.com/oploverz/"
 
 class OtakuController {
     async search ({params: {query}}, req) {
-        let result = {};
+        let obj = {};
         const search = `${baseUrl}search/?q=${query}`
         const jar = new cookie.CookieJar();
         const client = wrapper.wrapper(axios.create({ jar }));
 
-        const response = await client.get(baseUrl);
+        const response = await client.get(search);
         const $ = cheerio.load(response.data);
         const getRow = $('.row').find('.container')
-        const images = []
+        const result = []
         const element = getRow.find('.main-col')
         element.find('.bg-white').find('a').each(function() {
             const scrape = {
                 title: $(this).find('.titlelist').text(),
                 image: $(this).find('img').attr('src'),
-                url: $(this).attr('href')
+                url: $(this).attr('href'),
+                rating: $(this).find('.starlist').text(),
+                endpoint: $(this).attr('href').replace(baseUrl, ''),
             }
-            images.push(scrape)
-            // console.log('foo')
+            result.push(scrape)
         })
-        console.log(images)
+        obj.status = req.statusCode === 200 ? "success" : "server error";
+        obj.statusCode = req.statusCode
+        obj.result = result
         
-        req.send('foo')
+        req.send(obj)
     }
 }
 
