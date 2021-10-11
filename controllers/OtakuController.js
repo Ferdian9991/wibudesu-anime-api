@@ -56,6 +56,31 @@ class OtakuController {
             req.send(obj)
         }
     }
+    
+    async animeDetail ({params: {portal, id}}, req) {
+        let obj = {};
+        const filter = portalLists.filter(function(data) {
+            return data === portal
+        }).join("")
+        if(filter === portal) {
+            const url = `${baseUrl}${portal}/anime/${id}` 
+
+            obj.status = req.statusCode === 200 ? "success" : "server error";
+            obj.statusCode = req.statusCode
+            obj.source = portal
+            obj.result = []
+
+            console.log(url)
+
+            req.send(obj)
+        } else {
+            obj.status = req.statusCode === 200 ? "success" : "server error";
+            obj.statusCode = req.statusCode
+            obj.source = 'unknown'
+            obj.result = []
+            req.send(obj)
+        }
+    }
 }
 
 module.exports = new OtakuController
