@@ -7,20 +7,12 @@ const zsExtract = require('zs-extract');
 const request = require('request')
 var cookie = require('tough-cookie')
 const wrapper = require('axios-cookiejar-support')
+const baseUrl = "https://otakupoi.com/oploverz/"
 
 class OtakuController {
-    async home (_, req) {
+    async search ({params: {query}}, req) {
         let result = {};
-        const baseUrl = 'https://otakupoi.com/otakudesu/search/?q=f'
-        // request(baseUrl, function(error, response, body) {
-        //     if(!error) {
-        //       console.log(response)
-        //     }
-        //     else {
-        //       console.log('There was an error!');
-        //     }
-        // });
-        // const response = await Axios.get(baseUrl)
+        const search = `${baseUrl}search/?q=${query}`
         const jar = new cookie.CookieJar();
         const client = wrapper.wrapper(axios.create({ jar }));
 
